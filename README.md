@@ -20,6 +20,5 @@ docker build -t carmarket:latest .
 ```
 Start docker containers
 ```
-docker run -t -d --rm -v <carMarketFolder>:/app/src \
--p 8000:8000 carmarket:latest python3 app.py
+docker run -t -d --rm -v <carMarketFolder>:/app/src -p 8000:8000 carmarket:latest python3 app.py
 ```
