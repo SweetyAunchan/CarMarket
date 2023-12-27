@@ -1,0 +1,232 @@
+{
+	"info": {
+		"_postman_id": "5fd915b0-7025-44d1-bdf8-1fc4059dadad",
+		"name": "Zrch test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "30728552"
+	},
+	"item": [
+		{
+			"name": "blank",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://192.168.161.238:8000"
+			},
+			"response": []
+		},
+		{
+			"name": "carInfo_insert1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"brand\": \"NISSAN\",\r\n\"model\": \"NAVARA CALIBRE\",\r\n\"year\": \"2023\",\r\n\"coluer\": \"white\",\r\n\"mileage\": 20000,\r\n\"price\": 500000,\r\n\"status\": \"active\",\r\n\"broker_mail\": \"Sarani@email.com\",\r\n\"image_url\":[\"https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg\", \"https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhcnxlbnwwfHwwfHx8MA%3D%3D\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/carInfo/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "carInfo_insert2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"brand\": \"TOYATA\",\r\n\"model\": \"YARIS\",\r\n\"year\": \"2023\",\r\n\"coluer\": \"black\",\r\n\"mileage\": 6000,\r\n\"price\": 900000,\r\n\"status\": \"active\",\r\n\"broker_mail\": \"Sarani@email.com\",\r\n\"image_url\":[\"https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg\", \"https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fGNhcnxlbnwwfHwwfHx8MA%3D%3D\"]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/carInfo/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "BrokerInfo_insert1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"username\":     \"TheUser\", \r\n    \"firstName\":    \"Sarani\",\r\n    \"lastName\":     \"Liyawa\",\r\n    \"brach\":        \"Bangkok\",\r\n    \"phone\":        \"0987654321\", \r\n    \"email\":        \"Sarani@email.com\",\r\n    \"password\":     \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/brokerInfo/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "BrokerInfo_insert2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"username\":     \"TheHuge\", \r\n    \"firstName\":    \"Miyubi\",\r\n    \"lastName\":     \"Yotsuba\",\r\n    \"brach\":        \"Tokyo\",\r\n    \"phone\":        \"0932165487\", \r\n    \"email\":        \"Miyubi@email.com\",\r\n    \"password\":     \"password\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/brokerInfo/insert"
+			},
+			"response": []
+		},
+		{
+			"name": "BrokerInfo_update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"email\":        \"Sarani@email.com\", \r\n    \"colname\":      \"username\",\r\n    \"change_data\":  \"Unname\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/brokerInfo/update"
+			},
+			"response": []
+		},
+		{
+			"name": "CarInfo_update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \"basket_id\":    \"658c4dcebe6cdc0df601bf66\", \r\n    \"colname\":      \"price\",\r\n    \"change_data\":  800000}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/carInfo/update"
+			},
+			"response": []
+		},
+		{
+			"name": "BrokerInfo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/brokerInfo/658c55a42dabc6c29bfbdf2a"
+			},
+			"response": []
+		},
+		{
+			"name": "CarInfo",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/carInfo/658c4dcebe6cdc0df601bf66"
+			},
+			"response": []
+		},
+		{
+			"name": "BrokerDelete",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/brokerDelete/658c2d9e7468bbe12bbac108"
+			},
+			"response": []
+		},
+		{
+			"name": "ShowBasket",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/showBasket"
+			},
+			"response": []
+		},
+		{
+			"name": "CarDelete",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/carDelete/658c4dcebe6cdc0df601bf66"
+			},
+			"response": []
+		}
+	]
+}
