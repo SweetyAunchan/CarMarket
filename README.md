@@ -1,5 +1,9 @@
 # CarMarket
-This is API for CRUD and listing by flask API with MongoDB
+This is API for CRUD and listing by flask API with MongoDB.
+It has 3 part
+  -  Broker Infomation (create new broker, update broker data, delete broker data and show Broker Infomation with their cars data)
+  -  Car Infomation (create new car, update car data, delete car data and show car Infomation)
+  -  Listing data for see all car status
 
 # Installation
 ### Conda
@@ -24,4 +28,14 @@ docker run -t -d --rm -v <carMarketFolder>:/app/src -p 8000:8000 carmarket:lates
 
 # API testing
 ### Postman
+  - Download CarMatketAPIForPastman from a branch
+  - Import CarMatketAPIForPastman to postman
+  - Change IP and parameter 
 ### Swagger
+  - Go to web brower
+```
+http://<IP>:8000/api/docs/
+```
+
+# Data model Validator
+
