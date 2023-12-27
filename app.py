@@ -1,5 +1,8 @@
 from tools              import *
 from flask              import Flask, request, Response
+from flask_pydantic     import validate
+from pydantic           import BaseModel
+from typing             import Optional
 from flask_swagger_ui   import get_swaggerui_blueprint
 
 app = Flask(__name__)
@@ -18,28 +21,39 @@ def index():
     return 'Running OK!!!!'
 
 # ----------------------- Broker --------------------------------
-@app.route('/brokerInfo/insert',methods=['POST'])
-def brokerInfoInsert():
-    content     = request.get_json()
-    username    = content['username']
-    firstName   = content['firstName']
-    lastName    = content['lastName']
-    brach       = content['brach']
-    phone       = content['phone']
-    email       = content['email']
-    password    = content['password']
+class brokerInsertBody(BaseModel):
+    username: str
+    firstName: Optional[str]
+    lastName: Optional[str]
+    brach: str
+    phone: str
+    email: str
+    password: str
     
-    if duplicate_email(email):
+class carInsertBody(BaseModel):
+    brand: str
+    model: str
+    year: str
+    coluer: str
+    mileage: str
+    price: str
+    images: Optional[str]
+    broker_mail: str
+    
+@app.route('/brokerInfo/insert',methods=['POST'])
+@validate()
+def brokerInfoInsert(body: brokerInsertBody):
+    if duplicate_email(body.email):
         return Response("{'responses': 'This email was used'}", 
                         status=201, mimetype='application/json')
     else:
-        adding_data = { "username":     username, 
-                        "firstName":    firstName,
-                        "lastName":     lastName,
-                        "brach":        brach,
-                        "phone":        phone, 
-                        "email":        email,
-                        "password":     password}
+        adding_data = { "username":     body.username, 
+                        "firstName":    body.firstName,
+                        "lastName":     body.lastName,
+                        "brach":        body.brach,
+                        "phone":        body.phone, 
+                        "email":        body.email,
+                        "password":     body.password}
         broker_id   = insert_data("broker_info", adding_data)
         return {'broker_id': broker_id}
 
@@ -79,29 +93,19 @@ def brokerDelete(broker_id):
 
 # ----------------------- Car --------------------------------
 @app.route('/carInfo/insert',methods=['POST'])
-def carInfoInsert():
-    content         = request.get_json()
-    brand           = content['brand']
-    model           = content['model']
-    year            = content['year']
-    coluer          = content['coluer']
-    mileage         = content['mileage']
-    price           = content['price']
-    images          = content['image_url']
-    status          = content['status']
-    broker_mail     = content['broker_mail']
-    
-    if duplicate_email(broker_mail):
-        broker_data = query_data("broker_info", 'email', broker_mail)
+@validate()
+def carInfoInsert(body: carInsertBody):   
+    if duplicate_email(body.broker_mail):
+        broker_data = query_data("broker_info", 'email', body.broker_mail)
         broker_id   = str(broker_data[0]['_id'])
-        adding_data = { "brand":        brand, 
-                        "model":        model,
-                        "year":         year,
-                        "coluer":       coluer,
-                        "mileage":      mileage, 
-                        "price":        price,
-                        "images":       images,
-                        "status":       status,
+        adding_data = { "brand":        body.brand, 
+                        "model":        body.model,
+                        "year":         body.year,
+                        "coluer":       body.coluer,
+                        "mileage":      body.mileage, 
+                        "price":        body.price,
+                        "images":       body.images,
+                        "status":       'active',
                         "broker_id":    broker_id}
         busket_id   = insert_data("car_info", adding_data)
         return {'busket_id': busket_id}
