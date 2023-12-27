@@ -1,0 +1,93 @@
+openapi: 3.0.3
+
+info:
+  title: Car Market - OpenAPI 3.0
+  description: |-
+    This is a sample Car Market Server based on the OpenAPI 3.0 specification. 
+  contact:
+    email: Narisa.yawila@gmail.com
+
+servers:
+  - url: http://localhost:8000
+
+tags:
+  - name: broker
+    description: Everything about broker
+  - name: car
+    description: Everything about car
+
+paths:
+  brokerInfo/insert:
+    post:
+      tags:
+        - broker
+      summary: Add a new broker to the market
+      description: Add a new broker to the market
+      operationId: addBroker
+      requestBody:
+        description: Create a new broker in the market
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/brokerInsertRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerInsertResponses'          
+        '405':
+          description: Invalid input
+
+components:
+  schemas:
+    brokerInsertRequest:
+      required:
+        - username
+        - email
+        - password
+        - phone
+        - brach
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 500010
+        username:
+          type: string
+          example: TheUser
+        firstName:
+          type: string
+          example: Sarani
+        lastName:
+          type: string
+          example: Liyawa
+        email:
+          type: string
+          example: Sarani@email.com
+        password:
+          type: string
+          example: 'password'
+        phone:
+          type: string
+          example: '0987654321'
+        brach:
+          type: string
+          example: Bangkok
+        userStatus:
+          type: integer
+          description: User Status
+          format: int32
+          example: 1
+    brokerInsertResponses:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: 'Broker Infomation were inserted'
+        broker_id:
+          type: string
+          example: '658c1990d1bc972d98558665'

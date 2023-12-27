@@ -1,0 +1,153 @@
+openapi: 3.0.3
+
+info:
+  title: Car Market
+  description: |-
+    This is a sample Car Market Server based on the OpenAPI 3.0 specification.
+
+servers:
+  - url: http://localhost:8000
+
+tags:
+  - name: broker
+    description: Everything about broker
+  - name: car
+    description: Operations about user
+
+paths:
+  /brokerInfo/insert:
+    post:
+      tags:
+        - broker
+      summary: Add a new broker to the market
+      description: Add a new broker to the market
+      operationId: addBroker
+      requestBody:
+        description: Create a new broker in the market
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/brokerInsertRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerInsertResponses'          
+        '405':
+          description: Invalid input
+  # /carInfo/insert:
+  #   post:
+  #     tags:
+  #       - car
+  #     summary: Add a new car to the market
+  #     description: Add a new car to the market
+  #     operationId: addCar
+  #     requestBody:
+  #       description: Create a new car in the market
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#/components/schemas/carInsertRequest'
+  #       required: true
+  #     responses:
+  #       '200':
+  #         description: Successful operation
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/carInsertResponses'          
+  #       '405':
+  #         description: Invalid input
+ 
+components:
+  schemas:
+    brokerInsertRequest:
+      required:
+        - username
+        - brach
+        - phone
+        - email
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          example: TheUser
+        firstName:
+          type: string
+          example: Sarani
+        lastName:
+          type: string
+          example: Liyawa
+        brach:
+          type: string
+          example: Bangkok
+        phone:
+          type: string
+          example: '0987654321'
+        email:
+          type: string
+          example: Sarani@email.com
+        password:
+          type: string
+          example: 'password'
+    brokerInsertResponses:
+      type: object
+      properties:
+        broker_id:
+          type: string
+          example: '658c1990d1bc972d98558665'
+    # carInsertRequest:
+    #   required:
+    #     - brand
+    #     - model
+    #     - year
+    #     - coluer
+    #     - mileage
+    #     - price
+    #     - image_url
+    #   type: object
+    #   properties:
+    #     username:
+    #       type: string
+    #       example: TheUser
+    #     firstName:
+    #       type: string
+    #       example: Sarani
+    #     lastName:
+    #       type: string
+    #       example: Liyawa
+    #     brach:
+    #       type: string
+    #       example: Bangkok
+    #     phone:
+    #       type: string
+    #       example: '0987654321'
+    #     email:
+    #       type: string
+    #       example: Sarani@email.com
+    #     password:
+    #       type: string
+    #       example: 'password'
+    #     image_url:
+    #       type: array
+    #       xml:
+    #         wrapped: true
+    #       items:
+    #         type: string
+    #         xml:
+    #           name: photoUrl
+    #         example: https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg
+    # carInsertResponses:
+    #   type: object
+    #   properties:
+    #     responses:
+    #       type: string
+    #       example: 'Car Infomation were inserted'
+    #     bugket_id:
+    #       type: string
+    #       example: '658c1990d1bc972d98558665'
+  
