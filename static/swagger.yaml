@@ -6,13 +6,15 @@ info:
     This is a sample Car Market Server based on the OpenAPI 3.0 specification.
 
 servers:
-  - url: http://localhost:8000
+  - url: http://0.0.0.0:8000
 
 tags:
   - name: broker
     description: Everything about broker
   - name: car
-    description: Operations about user
+    description: Everything about car
+  - name: listing
+    description: Operations about description
 
 paths:
   /brokerInfo/insert:
@@ -35,33 +37,205 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/brokerInsertResponses'          
+                $ref: '#/components/schemas/brokerInsertResponses'   
+        '201':
+          description: Duplicated email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerInsertEmailDuplicated'       
         '405':
           description: Invalid input
-  # /carInfo/insert:
-  #   post:
-  #     tags:
-  #       - car
-  #     summary: Add a new car to the market
-  #     description: Add a new car to the market
-  #     operationId: addCar
-  #     requestBody:
-  #       description: Create a new car in the market
-  #       content:
-  #         application/json:
-  #           schema:
-  #             $ref: '#/components/schemas/carInsertRequest'
-  #       required: true
-  #     responses:
-  #       '200':
-  #         description: Successful operation
-  #         content:
-  #           application/json:
-  #             schema:
-  #               $ref: '#/components/schemas/carInsertResponses'          
-  #       '405':
-  #         description: Invalid input
- 
+  /brokerInfo/<broker_id>:
+    get:
+      tags:
+        - broker
+      summary: Find broker By id
+      description: Returns a single broker
+      operationId: getBrokerById
+      parameters:
+        - name: broker_id
+          in: path
+          description: ID of broker to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerInfo'          
+        '405':
+          description: Invalid input 
+  /brokerInfo/update:
+    post:
+      tags:
+        - broker
+      summary: update broker data
+      description: update broker data by email for each column
+      operationId: updateBroker
+      requestBody:
+        description: update broker data by email for each column
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/brokerUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerUpdateResponses'   
+        '405':
+          description: Invalid input
+  /brokerDelete/<broker_id>:
+    get:
+      tags:
+        - broker
+      summary: Delete broker By id
+      description: Delete a single broker and change status of all car of this broker to be inactive
+      operationId: deleteBrokerById
+      parameters:
+        - name: broker_id
+          in: path
+          description: ID of broker to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/brokerDelete'          
+        '405':
+          description: Invalid input 
+  
+  /carInfo/insert:
+    post:
+      tags:
+        - car
+      summary: Add a new car to the market
+      description: Add a new car to the market
+      operationId: addCar
+      requestBody:
+        description: Create a new car in the market
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/carInsertRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carInsertResponses'   
+        '201':
+          description: Duplicated email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carInsertEmailInvalid'              
+        '405':
+          description: Invalid input
+  /carInfo/<basket_id>:
+    get:
+      tags:
+        - car
+      summary: Find basket By id
+      description: Returns a single basket 
+      operationId: getBasketById
+      parameters:
+        - name: basket_id
+          in: path
+          description: ID of basket to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carInfo'          
+        '405':
+          description: Invalid input 
+  /carInfo/update:
+    post:
+      tags:
+        - car
+      summary: update car data
+      description: update car data by busket id for each column
+      operationId: updateCar
+      requestBody:
+        description: update car data by busket id for each column
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/carUpdateRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carUpdateResponses'   
+        '405':
+          description: Invalid input
+  /carDelete/<basket_id>:
+    get:
+      tags:
+        - car
+      summary: Delete car By id
+      description: Delete a single car
+      operationId: deleteCarById
+      parameters:
+        - name: basket_id
+          in: path
+          description: ID of basket to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/carDelete'          
+        '405':
+          description: Invalid input 
+
+  /showBasket:
+    get:
+      tags:
+        - listing
+      summary: Show all car in market
+      description: Return all car in market
+      operationId: getAllCar
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/showBasket'          
+        '405':
+          description: Invalid input 
+
 components:
   schemas:
     brokerInsertRequest:
@@ -99,55 +273,207 @@ components:
       properties:
         broker_id:
           type: string
+          example: 658c1990d1bc972d98558665
+    brokerInsertEmailDuplicated:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: 'This email was used'
+    brokerInfoBasket:
+      type: object
+      properties:
+        basket_id:
+          type: string
           example: '658c1990d1bc972d98558665'
-    # carInsertRequest:
-    #   required:
-    #     - brand
-    #     - model
-    #     - year
-    #     - coluer
-    #     - mileage
-    #     - price
-    #     - image_url
-    #   type: object
-    #   properties:
-    #     username:
-    #       type: string
-    #       example: TheUser
-    #     firstName:
-    #       type: string
-    #       example: Sarani
-    #     lastName:
-    #       type: string
-    #       example: Liyawa
-    #     brach:
-    #       type: string
-    #       example: Bangkok
-    #     phone:
-    #       type: string
-    #       example: '0987654321'
-    #     email:
-    #       type: string
-    #       example: Sarani@email.com
-    #     password:
-    #       type: string
-    #       example: 'password'
-    #     image_url:
-    #       type: array
-    #       xml:
-    #         wrapped: true
-    #       items:
-    #         type: string
-    #         xml:
-    #           name: photoUrl
-    #         example: https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg
-    # carInsertResponses:
-    #   type: object
-    #   properties:
-    #     responses:
-    #       type: string
-    #       example: 'Car Infomation were inserted'
-    #     bugket_id:
-    #       type: string
-    #       example: '658c1990d1bc972d98558665'
-  
+        brand:
+          type: string
+          example: 'NISSAN'
+        status:
+          type: string
+          example: 'active'
+    brokerInfo:
+      type: object
+      properties:
+        username:
+          type: string
+          example: TheUser
+        firstName:
+          type: string
+          example: Sarani
+        lastName:
+          type: string
+          example: Liyawa
+        brach:
+          type: string
+          example: Bangkok
+        phone:
+          type: string
+          example: '0987654321'
+        email:
+          type: string
+          example: Sarani@email.com
+        baskets:
+          type: array
+          items:
+            $ref: '#/components/schemas/brokerInfoBasket' 
+    brokerUpdateRequest:
+      required:
+        - email
+        - colname
+        - change_data
+      type: object
+      properties:
+        email:
+          type: string
+          example: Sarani@email.com
+        colname:
+          type: string
+          example: username
+        change_data:
+          type: string
+          example: Unname
+    brokerUpdateResponses:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: Broker's username was updated
+    brokerDelete:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: This broker was deleted and 5 busket(s) are inactive
+    
+    carImages:
+      type: object
+      properties:
+        url:
+          type: string
+          example: 'https://hips.hearstapps.com/hmg-prod/images/2019-honda-civic-sedan-1558453497.jpg'
+    carInsertRequest:
+      required:
+        - brand
+        - model
+        - year
+        - coluer
+        - mileage
+        - price
+        - image_url
+      type: object
+      properties:
+        brand:
+          type: string
+          example: NISSAN
+        model:
+          type: string
+          example: NAVARA CALIBRE
+        year:
+          type: integer
+          format: int64
+          example: 2023
+        coluer:
+          type: string
+          example: white
+        mileage:
+          type: integer
+          format: int64
+          example: 20000
+        price:
+          type: integer
+          format: int64
+          example: 500000
+        status:
+          type: string
+          example: 'active'
+        broker_mail:
+          type: string
+          example: 'Sarani@email.com'
+        image_url:
+          type: array
+          items:
+            $ref: '#/components/schemas/carImages'
+    carInsertResponses:
+      type: object
+      properties:
+        bugket_id:
+          type: string
+          example: 658c1990d1bc972d98558665
+    carInsertEmailInvalid:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: 'Email invalid'
+    carInfo:
+      type: object
+      properties:
+        brand:
+          type: string
+          example: NISSAN
+        model:
+          type: string
+          example: NAVARA CALIBRE
+        year:
+          type: integer
+          format: int64
+          example: 2023
+        coluer:
+          type: string
+          example: white
+        mileage:
+          type: integer
+          format: int64
+          example: 20000
+        price:
+          type: integer
+          format: int64
+          example: 500000
+        status:
+          type: string
+          example: 'active'
+        image_url:
+          type: array
+          items:
+            $ref: '#/components/schemas/carImages' 
+        broker_mail:
+          type: string
+          example: 'Sarani@email.com'
+    carUpdateRequest:
+      required:
+        - basket_id
+        - colname
+        - change_data
+      type: object
+      properties:
+        basket_id:
+          type: string
+          example: 658c4dcebe6cdc0df601bf66
+        colname:
+          type: string
+          example: price
+        change_data:
+          type: string
+          example: 900000
+    carUpdateResponses:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: Car's price was updated
+    CarDelete:
+      type: object
+      properties:
+        responses:
+          type: string
+          example: This basket was deleted
+
+    showBasket:
+      type: object
+      properties:
+        responses:
+          type: array
+          items:
+            $ref: '#/components/schemas/brokerInfoBasket' 
+

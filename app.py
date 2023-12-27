@@ -1,5 +1,5 @@
 from tools              import *
-from flask              import Flask, request
+from flask              import Flask, request, Response
 from flask_swagger_ui   import get_swaggerui_blueprint
 
 app = Flask(__name__)
@@ -30,7 +30,8 @@ def brokerInfoInsert():
     password    = content['password']
     
     if duplicate_email(email):
-        return {'responses': 'This email was used'}
+        return Response("{'responses': 'This email was used'}", 
+                        status=201, mimetype='application/json')
     else:
         adding_data = { "username":     username, 
                         "firstName":    firstName,
@@ -105,19 +106,22 @@ def carInfoInsert():
         busket_id   = insert_data("car_info", adding_data)
         return {'busket_id': busket_id}
     else:
-        return {'responses': 'Email invalid'}
+        return Response("{'responses': 'Email invalid'}", 
+                        status=201, mimetype='application/json')
 
 @app.route('/carInfo/<basket_id>',methods=['GET'])
 def carInfo(basket_id):
     basket_data = query_data_by_id("car_info", f'{basket_id}')
-    data        = { "brand":    basket_data['brand'], 
-                    "model":    basket_data['model'],
-                    "year":     basket_data['year'],
-                    "coluer":   basket_data['coluer'],
-                    "mileage":  basket_data['mileage'], 
-                    "price":    basket_data['price'],
-                    "images":   basket_data['images'],
-                    "status":   basket_data['status']}    
+    broker_data = query_data_by_id("broker_info", basket_data['broker_id'])
+    data        = { "brand":        basket_data['brand'], 
+                    "model":        basket_data['model'],
+                    "year":         basket_data['year'],
+                    "coluer":       basket_data['coluer'],
+                    "mileage":      basket_data['mileage'], 
+                    "price":        basket_data['price'],
+                    "status":       basket_data['status'],
+                    "images":       basket_data['images'],
+                    "broker_mail":  broker_data['email'],}    
     return data
 
 @app.route('/carInfo/update',methods=['POST'])
