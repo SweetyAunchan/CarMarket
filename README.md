@@ -2,7 +2,6 @@
 This is API for CRUD and listing by flask API with MongoDB
 
 # Installation
-
 ### Conda
 We recommend installing in a fresh Conda environment.
 ```
@@ -22,3 +21,7 @@ Start docker containers
 ```
 docker run -t -d --rm -v <carMarketFolder>:/app/src -p 8000:8000 carmarket:latest python3 app.py
 ```
+
+# API testing
+### Postman
+### Swagger
