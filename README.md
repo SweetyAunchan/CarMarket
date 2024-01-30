@@ -36,4 +36,3 @@ docker run -t -d --rm -v <carMarketFolder>:/app/src -p 8000:8000 carmarket:lates
 ```
 http://<IP>:8000/api/docs/
 ```
-[prove_file_name]_score.xlsx
